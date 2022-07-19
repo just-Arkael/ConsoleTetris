@@ -74,7 +74,7 @@ namespace Tetris
 
         }
 
-        static void NextFigure(ref int[] figure1, ref int[] figure2, ref int[] figure3, ref int[] figure4, ref byte newFigure, ref Random rand)
+        static void NextFigure(ref int[] figure1, ref int[] figure2, ref int[] figure3, ref int[] figure4, ref byte newFigure, ref Random rand, ref int score)
         {
 
             switch (newFigure)
@@ -183,6 +183,7 @@ namespace Tetris
 
             }
             newFigure = (byte)rand.Next(9);
+            score += 10;
 
         }
         static void MoveFigureLeft(bool[,] board, int[] figure1, int[] figure2, int[] figure3, int[] figure4)
@@ -231,7 +232,7 @@ namespace Tetris
         }
 
 
-        static void DrawBoard(bool[,] board, int[] figure1, int[] figure2, int[] figure3, int[] figure4)
+        static void DrawBoard(bool[,] board, int[] figure1, int[] figure2, int[] figure3, int[] figure4, int newFigure, int score)
         {
 
             Console.WriteLine();
@@ -254,7 +255,116 @@ namespace Tetris
                         Console.Write("..");
                     }
                 }
-                
+                switch (i)
+                {
+                    case 1:
+                        Console.Write("     NEXT:");
+                        break;
+                    case 2:
+                        Console.Write("     --------");
+                        break;
+                    case 3:
+                        switch (newFigure)
+                        {
+                            case 0:
+                                Console.Write("    |....[]..|");
+                                break;
+                            default:
+                                Console.Write("    |........|");
+                                break;
+                        }
+                        break;
+                    case 4:
+                        switch (newFigure)
+                        {
+                            case 0:
+                            case 5:
+                                Console.Write("    |....[]..|");
+                                break;
+                            case 1:
+                                Console.Write("    |[]......|");
+                                break;
+                            case 2:
+                                Console.Write("    |......[]|");
+                                break;
+                            case 3:
+                                Console.Write("    |..[][]..|");
+                                break;
+                            case 4:
+                                Console.Write("    |....[][]|");
+                                break;
+                            case 6:
+                                Console.Write("    |[][]....|");
+                                break;
+                            case 7:
+                                Console.Write("    |..[][][]|");
+                                break;
+                            case 8:
+                            case 9:
+                                Console.Write("    |[][][][]|");
+                                break;
+
+                        }
+                        break;
+                    case 5:
+                        switch (newFigure)
+                        {
+                            case 0:
+                            case 7:
+                                Console.Write("    |....[]..|");
+                                break;
+                            case 1:
+                            case 2:
+                                Console.Write("    |[][][][]|");
+                                break;
+                            case 3:
+                            case 4:
+                            case 6:
+                                Console.Write("    |..[][]..|");
+                                break;
+                            case 5:
+                                Console.Write("    |..[][][]|");
+                                break;
+                            case 8:
+                                Console.Write("    |[]......|");
+                                break;
+                            case 9:
+                                Console.Write("    |......[]|");
+                                break;
+
+                        }
+                        break;
+                    case 6:
+                        switch (newFigure)
+                        {
+                            case 0:
+                                Console.Write("    |....[]..|");
+                                break;
+                            default:
+                                Console.Write("    |........|");
+                                break;
+                        }
+                        break;
+                    case 7:
+                        Console.Write("     --------");
+                        break;
+                    case 8:
+                        Console.Write("     SCORE: {0}", score);
+                        break;
+                    case 9:
+                        Console.Write("     W = rotate");
+                        break;
+                    case 10:
+                        Console.Write("     A = left");
+                        break;
+                    case 11:
+                        Console.Write("     D = right");
+                        break;
+                    case 12:
+                        Console.Write("     S = down");
+                        break;
+
+                }
                 Console.Write("\n");
 
             }
@@ -278,16 +388,17 @@ namespace Tetris
             int[] figure3 = { 5, 1 };
             int[] figure4 = { 6, 1 };
             byte newFigure = (byte)rand.Next(9);
+            int score = 0;
 
 
         Reset:
             
 
             Console.Clear();
-            DrawBoard(board, figure1, figure2, figure3, figure4);
+            DrawBoard(board, figure1, figure2, figure3, figure4, newFigure, score);
             if (MoveFigureDown(ref board, figure1, figure2, figure3, figure4) == false)
             {
-                NextFigure(ref figure1, ref figure2, ref figure3, ref figure4, ref newFigure, ref rand);
+                NextFigure(ref figure1, ref figure2, ref figure3, ref figure4, ref newFigure, ref rand, ref score);
             }
 
             switch (Console.ReadKey().Key)
