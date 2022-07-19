@@ -9,6 +9,33 @@ namespace Tetris
     internal class Program
     {
 
+        static void MergeBoard(ref bool[,] board, ref int score)
+        {
+            for (int checklane = 19; checklane >= 0; checklane--)
+            {
+                bool fullLane = true;
+                for (int checkpos = 0; checkpos <= 9; checkpos++)
+                {
+                    fullLane = fullLane && board[checkpos, checklane];
+                }
+                if (fullLane == true)
+                {
+                    for (int mergelane = checklane; mergelane > 0; mergelane--)
+                    {
+                        for (int mergepos = 0; mergepos <= 9; mergepos++)
+                        {
+                            board[mergepos, mergelane] = board[mergepos, mergelane - 1];
+
+                        }
+
+                    }
+                    score += 100;
+                }
+
+            }
+
+        }
+
         static void MoveFigureRotate(bool[,] board, ref int[] figure1, ref int[] figure2, ref int[] figure3, ref int[] figure4)
         {
             int[] myfigure1 = figure1;
@@ -396,6 +423,7 @@ namespace Tetris
 
             Console.Clear();
             DrawBoard(board, figure1, figure2, figure3, figure4, newFigure, score);
+            MergeBoard(ref board, ref score);
             if (MoveFigureDown(ref board, figure1, figure2, figure3, figure4) == false)
             {
                 NextFigure(ref figure1, ref figure2, ref figure3, ref figure4, ref newFigure, ref rand, ref score);
