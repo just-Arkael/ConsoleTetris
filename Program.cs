@@ -9,6 +9,71 @@ namespace Tetris
     internal class Program
     {
 
+        static void MoveFigureRotate(bool[,] board, ref int[] figure1, ref int[] figure2, ref int[] figure3, ref int[] figure4)
+        {
+            int[] myfigure1 = figure1;
+            int[] myfigure2 = figure2;
+            int[] myfigure3 = figure3;
+            int[] myfigure4 = figure4;
+            int distanceX;
+            int distanceY;
+
+            distanceX = myfigure2[0] - myfigure1[0];
+            distanceY = myfigure2[1] - myfigure1[1];
+            myfigure1[0] = myfigure2[0] + distanceY;
+            myfigure1[1] = myfigure2[1] + distanceX;
+            distanceX = myfigure2[0] - myfigure3[0];
+            distanceY = myfigure2[1] - myfigure3[1];
+            myfigure3[0] = myfigure2[0] + distanceY;
+            myfigure3[1] = myfigure2[1] + distanceX;
+            distanceX = myfigure2[0] - myfigure4[0];
+            distanceY = myfigure2[1] - myfigure4[1];
+            myfigure4[0] = myfigure2[0] + distanceY;
+            myfigure4[1] = myfigure2[1] + distanceX;
+
+            do
+            {
+                myfigure1[0]--;
+                myfigure2[0]--;
+                myfigure3[0]--;
+                myfigure4[0]--;
+
+            } while (myfigure1[0] >= 9 || myfigure2[0] >= 9 || myfigure3[0] >= 9 || myfigure4[0] >= 9);
+            do
+            {
+                myfigure1[0]++;
+                myfigure2[0]++;
+                myfigure3[0]++;
+                myfigure4[0]++;
+
+            } while (myfigure1[0] <= 0 || myfigure2[0] <= 0 || myfigure3[0] <= 0 || myfigure4[0] <= 0);
+            do
+            {
+                myfigure1[1]--;
+                myfigure2[1]--;
+                myfigure3[1]--;
+                myfigure4[1]--;
+
+            } while (myfigure1[1] >= 19 || myfigure2[1] >= 19 || myfigure3[1] >= 19 || myfigure4[1] >= 19);
+            do
+            {
+                myfigure1[1]++;
+                myfigure2[1]++;
+                myfigure3[1]++;
+                myfigure4[1]++;
+
+            } while (myfigure1[1] <= 0 || myfigure2[1] <= 0 || myfigure3[1] <= 0 || myfigure4[1] <= 0);
+
+            if (board[myfigure1[0], myfigure1[1]] == false && board[myfigure2[0], myfigure2[1]] == false && board[myfigure3[0], myfigure3[1]] == false && board[myfigure4[0], myfigure4[1]] == false)
+            {
+                figure1 = myfigure1;
+                figure2 = myfigure2;
+                figure3 = myfigure3;
+                figure4 = myfigure4;
+            }
+
+        }
+
         static void NextFigure(ref int[] figure1, ref int[] figure2, ref int[] figure3, ref int[] figure4, ref byte newFigure, ref Random rand)
         {
 
@@ -234,6 +299,10 @@ namespace Tetris
                 case ConsoleKey.A:
                     MoveFigureLeft(board, figure1, figure2, figure3, figure4);
                     break;
+                case ConsoleKey.W:
+                    MoveFigureRotate(board, ref figure1, ref figure2, ref figure3, ref figure4);
+                    break;
+
             }
             goto Reset;
 
