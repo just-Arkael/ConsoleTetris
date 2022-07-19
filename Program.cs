@@ -8,10 +8,30 @@ namespace Tetris
 {
     internal class Program
     {
-
-        static void MoveFigureDown(ref bool[,] board, int[] figure1, int[] figure2, int[] figure3, int[] figure4)
+        static void MoveFigureLeft(bool[,] board, int[] figure1, int[] figure2, int[] figure3, int[] figure4)
         {
-            
+            if (figure1[0] > 0 && board[figure1[0], figure1[1]] == false && figure2[0] > 0 && board[figure2[0], figure2[1]] == false && figure3[0] > 0 && board[figure3[0], figure3[1]] == false && figure4[0] > 0 && board[figure4[0], figure4[1]] == false)
+            {
+                figure1[0]--;
+                figure2[0]--;
+                figure3[0]--;
+                figure4[0]--;
+            }
+        }
+        static void MoveFigureRight(bool[,] board, int[] figure1, int[] figure2, int[] figure3, int[] figure4)
+        {
+            if (figure1[0] < 9 && board[figure1[0], figure1[1]] == false && figure2[0] < 9 && board[figure2[0], figure2[1]] == false && figure3[0] < 9 && board[figure3[0], figure3[1]] == false && figure4[0] < 9 && board[figure4[0], figure4[1]] == false)
+            {
+                figure1[0]++;
+                figure2[0]++;
+                figure3[0]++;
+                figure4[0]++;
+            }
+        }
+
+        static bool MoveFigureDown(ref bool[,] board, int[] figure1, int[] figure2, int[] figure3, int[] figure4)
+        {
+            bool result = true;
             if (figure1[1] < 19 && board[figure1[0], figure1[1] + 1] == false && figure2[1] < 19 && board[figure2[0], figure2[1] + 1] == false && figure3[1] < 19 && board[figure3[0], figure3[1] + 1] == false && figure4[1] < 19 && board[figure4[0], figure4[1] + 1] == false)
             {
 
@@ -27,9 +47,10 @@ namespace Tetris
                 board[figure2[0], figure2[1]] = true;
                 board[figure3[0], figure3[1]] = true;
                 board[figure4[0], figure4[1]] = true;
+                result = false;
             }
 
-            
+            return result;
         }
 
 
@@ -85,9 +106,28 @@ namespace Tetris
 
             Console.Clear();
             DrawBoard(board, figure1, figure2, figure3, figure4);
-            MoveFigureDown(ref board, figure1, figure2, figure3, figure4);
-            
-            Console.ReadKey();
+            if (MoveFigureDown(ref board, figure1, figure2, figure3, figure4) == false)
+            {
+                figure1[0] = 5;
+                figure1[1] = 0;
+                figure2[0] = 4;
+                figure2[1] = 1;
+                figure3[0] = 5;
+                figure3[1] = 1;
+                figure4[0] = 6;
+                figure4[1] = 1;
+            }
+
+            switch (Console.ReadKey().Key)
+            {
+
+                case ConsoleKey.D:
+                    MoveFigureRight(board, figure1, figure2, figure3, figure4);
+                    break;
+                case ConsoleKey.A:
+                    MoveFigureLeft(board, figure1, figure2, figure3, figure4);
+                    break;
+            }
             goto Reset;
 
 
