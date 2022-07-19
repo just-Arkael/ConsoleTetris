@@ -8,6 +8,16 @@ namespace Tetris
 {
     internal class Program
     {
+        static bool GameOverCheck(bool[,] board)
+        {
+            bool result = false;
+            if (board[5, 0] == true)
+            {
+                result = true;
+            }
+            return result;
+        }
+            
 
         static void MergeBoard(ref bool[,] board, ref int score)
         {
@@ -416,11 +426,15 @@ namespace Tetris
             int[] figure4 = { 6, 1 };
             byte newFigure = (byte)rand.Next(9);
             int score = 0;
+            NextFigure(ref figure1, ref figure2, ref figure3, ref figure4, ref newFigure, ref rand, ref score);
 
+            DrawBoard(board, figure1, figure2, figure3, figure4, newFigure, score);
+            Console.ForegroundColor = ConsoleColor.Green;
+            Console.Write("         Press any key to start!");
+            Console.ForegroundColor = ConsoleColor.White;
+            Console.ReadKey();
 
         Reset:
-            
-
             Console.Clear();
             DrawBoard(board, figure1, figure2, figure3, figure4, newFigure, score);
             MergeBoard(ref board, ref score);
@@ -443,7 +457,13 @@ namespace Tetris
                     break;
 
             }
-            goto Reset;
+            if (GameOverCheck(board) == false)
+            {
+                goto Reset;
+            }
+            Console.ForegroundColor = ConsoleColor.Red;
+            Console.WriteLine("               Game Over!");
+            Console.ReadKey();
 
 
         }
