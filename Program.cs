@@ -272,6 +272,7 @@ namespace Tetris
 
         static void DrawBoard(bool[,] board, int[] figure1, int[] figure2, int[] figure3, int[] figure4, int newFigure, int score)
         {
+            bool fullLine = false;
 
             Console.WriteLine();
             for (byte i = 0; i < 20; i++)
@@ -281,6 +282,16 @@ namespace Tetris
                 {
                     if (board[j, i] == true || j == figure1[0] && i == figure1[1] || j == figure2[0] && i == figure2[1] || j == figure3[0] && i == figure3[1] || j == figure4[0] && i == figure4[1])
                     {
+                        fullLine = true;
+                        for (byte h = 0; h < 10 && fullLine == true; h++)
+                        {
+                            fullLine = board[h, i] == true ? true : false;
+                        }
+                        if (fullLine == true)
+                        {
+                            Console.ForegroundColor = ConsoleColor.Yellow;
+                        }
+                        
                         if (board[j, i] != true)
                         {
                             Console.ForegroundColor = ConsoleColor.Blue;
