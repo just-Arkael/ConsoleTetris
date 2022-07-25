@@ -40,6 +40,7 @@ namespace Tetris
 
                     }
                     score += 100;
+                    Console.Beep();
                 }
 
             }
@@ -463,6 +464,7 @@ namespace Tetris
             }
             Console.ForegroundColor = ConsoleColor.Red;
             Console.WriteLine("               Game Over!");
+            Console.Beep();
             Console.ReadKey();
 
 
